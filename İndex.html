@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini Forum</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+}
+
+textarea {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    resize: none;
+    font-size: 14px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #3b82f6;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #2563eb;
+}
+
+.post {
+    background: #1e293b;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    word-wrap: break-word;
+}
+
+.time {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Anonim Mini Forum</h1>
+
+    <textarea id="message" placeholder="Mesaj yaz..."></textarea>
+    <button onclick="addPost()">Gönder</button>
+
+    <div id="posts"></div>
+</div>
+
+<script>
+let posts = JSON.parse(localStorage.getItem("forumPosts")) || [];
+
+function savePosts() {
+    localStorage.setItem("forumPosts", JSON.stringify(posts));
+}
+
+function renderPosts() {
+    const postsDiv = document.getElementById("posts");
+    postsDiv.innerHTML = "";
+    posts.slice().reverse().forEach(post => {
+        postsDiv.innerHTML += `
+            <div class="post">
+                ${post.text}
+                <div class="time">${post.time}</div>
+            </div>
+        `;
+    });
+}
+
+function addPost() {
+    const messageInput = document.getElementById("message");
+    const text = messageInput.value.trim();
+
+    if (text === "") return;
+
+    const now = new Date();
+    const timeString = now.toLocaleString("tr-TR");
+
+    posts.push({
+        text: text,
+        time: timeString
+    });
+
+    savePosts();
+    renderPosts();
+    messageInput.value = "";
+}
+
+renderPosts();
+</script>
+
+</body>
+</html>
