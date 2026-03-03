@@ -3,119 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini Forum</title>
-
+<title>Sena Naber</title>
 <style>
-body {
-    font-family: Arial, sans-serif;
-    background: #0f172a;
-    color: white;
+  /* Arka plan animasyonu */
+  body {
     margin: 0;
-    padding: 20px;
-}
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+    background: linear-gradient(-45deg, #ff6ec4, #7873f5, #42e695, #f9d423);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+  }
 
-.container {
-    max-width: 600px;
-    margin: auto;
-}
+  @keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
 
-h1 {
-    text-align: center;
-}
-
-textarea {
-    width: 100%;
-    height: 80px;
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    resize: none;
-    font-size: 14px;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    background: #3b82f6;
-    border: none;
-    border-radius: 8px;
+  /* Yazı animasyonu */
+  h1 {
+    font-size: 5em;
     color: white;
-    font-weight: bold;
-    cursor: pointer;
-}
+    text-shadow: 2px 2px 10px #000;
+    animation: bounce 2s ease infinite;
+  }
 
-button:hover {
-    background: #2563eb;
-}
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-30px); }
+  }
 
-.post {
-    background: #1e293b;
-    padding: 10px;
-    border-radius: 8px;
-    margin-top: 10px;
-    word-wrap: break-word;
-}
+  /* Yıldız animasyonu */
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: twinkle linear infinite;
+  }
 
-.time {
-    font-size: 11px;
-    color: #94a3b8;
-    margin-top: 5px;
-}
+  @keyframes twinkle {
+    0% {opacity: 0.2;}
+    50% {opacity: 1;}
+    100% {opacity: 0.2;}
+  }
 </style>
 </head>
-
 <body>
 
-<div class="container">
-    <h1>Anonim Mini Forum</h1>
-
-    <textarea id="message" placeholder="Mesaj yaz..."></textarea>
-    <button onclick="addPost()">Gönder</button>
-
-    <div id="posts"></div>
-</div>
+<h1>Sena naber</h1>
 
 <script>
-let posts = JSON.parse(localStorage.getItem("forumPosts")) || [];
-
-function savePosts() {
-    localStorage.setItem("forumPosts", JSON.stringify(posts));
-}
-
-function renderPosts() {
-    const postsDiv = document.getElementById("posts");
-    postsDiv.innerHTML = "";
-    posts.slice().reverse().forEach(post => {
-        postsDiv.innerHTML += `
-            <div class="post">
-                ${post.text}
-                <div class="time">${post.time}</div>
-            </div>
-        `;
-    });
-}
-
-function addPost() {
-    const messageInput = document.getElementById("message");
-    const text = messageInput.value.trim();
-
-    if (text === "") return;
-
-    const now = new Date();
-    const timeString = now.toLocaleString("tr-TR");
-
-    posts.push({
-        text: text,
-        time: timeString
-    });
-
-    savePosts();
-    renderPosts();
-    messageInput.value = "";
-}
-
-renderPosts();
+  // 50 tane yıldız ekleyelim
+  for(let i=0;i<50;i++){
+    let star = document.createElement('div');
+    star.classList.add('star');
+    star.style.width = star.style.height = Math.random()*3 + 2 + 'px';
+    star.style.top = Math.random()*100 + 'vh';
+    star.style.left = Math.random()*100 + 'vw';
+    star.style.animationDuration = (Math.random()*5 + 3) + 's';
+    document.body.appendChild(star);
+  }
 </script>
 
 </body>
